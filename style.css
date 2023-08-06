@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.column {
+  flex: 1;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.transactions {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.transaction-item {
+  margin: 10px 0;
+}
+
+.balance {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.total {
+  font-weight: bold;
+}

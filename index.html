@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" />
+    <title>Budżet Domowy</title>
+  </head>
+  <body>
+    <h1>Budżet Domowy</h1>
+    <div class="container">
+      <div class="column">
+        <h2>Przychody</h2>
+        <form id="incomeForm">
+          <label for="incomeName">Nazwa:</label>
+          <input type="text" id="incomeName" required />
+          <label for="incomeAmount">Kwota (PLN):</label>
+          <input type="number" id="incomeAmount" required />
+          <button type="submit">Dodaj</button>
+        </form>
+        <ul class="transactions" id="incomeList"></ul>
+        <p class="total" id="incomeTotal">Suma przychodów: 0 PLN</p>
+      </div>
+      <div class="column">
+        <h2>Wydatki</h2>
+        <form id="expenseForm">
+          <label for="expenseName">Nazwa:</label>
+          <input type="text" id="expenseName" required />
+          <label for="expenseAmount">Kwota (PLN):</label>
+          <input type="number" id="expenseAmount" required />
+          <button type="submit">Dodaj</button>
+        </form>
+        <ul class="transactions" id="expenseList"></ul>
+        <p class="total" id="expenseTotal">Suma wydatków: 0 PLN</p>
+        <p class="balance" id="balanceMessage"></p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
