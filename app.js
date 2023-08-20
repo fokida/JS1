@@ -33,7 +33,7 @@ function updateIncomeList() {
     listItem.className = "transaction-item";
     listItem.innerHTML = `
       <span>${transaction.name}</span>
-      <span>${transaction.amount.toFixed(2)} zł</span>
+      <span>${transaction.amount.toFixed(2)} PLN</span>
       <button onclick="editIncomeTransaction(${index})">Edytuj</button>
       <button onclick="deleteIncomeTransaction(${index})">Usuń</button>
     `;
@@ -49,7 +49,7 @@ function updateExpenseList() {
     listItem.className = "transaction-item";
     listItem.innerHTML = `
       <span>${transaction.name}</span>
-      <span>${transaction.amount.toFixed(2)} zł</span>
+      <span>${transaction.amount.toFixed(2)} PLN</span>
       <button onclick="editExpenseTransaction(${index})">Edytuj</button>
       <button onclick="deleteExpenseTransaction(${index})">Usuń</button>
     `;
@@ -59,34 +59,90 @@ function updateExpenseList() {
 
 function editIncomeTransaction(index) {
   const transaction = incomeTransactions[index];
-  const newName = prompt("Wprowadź nową nazwę:", transaction.name);
+  const originalName = transaction.name;
+  const originalAmount = transaction.amount;
+  const editContainer = document.createElement("div");
+  editContainer.innerHTML = `
+    <input id="editIncomeName" type="text" placeholder="Nowa nazwa" value="${originalName}">
+    <input id="editIncomeAmount" type="number" step="0.01" min="0.01" placeholder="Nowa kwota" value="${originalAmount}">
+    <button onclick="confirmEditIncomeTransaction(${index})">Zatwierdź</button>
+    <button onclick="cancelEditIncomeTransaction(${index}, '${originalName}', ${originalAmount})">Anuluj</button>
+  `;
+
+  incomeList.replaceChild(editContainer, incomeList.childNodes[index]);
+
+  const deleteButton = editContainer.querySelector("button:last-child");
+  deleteButton.disabled = false;
+}
+
+function confirmEditIncomeTransaction(index) {
+  const newName = document.getElementById("editIncomeName").value;
   const newAmount = parseFloat(
-    prompt("Wprowadź nową kwotę (PLN):", transaction.amount)
+    document.getElementById("editIncomeAmount").value
   );
 
   if (newName && !isNaN(newAmount)) {
-    transaction.name = newName;
-    transaction.amount = newAmount;
+    incomeTransactions[index].name = newName;
+    incomeTransactions[index].amount = newAmount;
     updateIncomeList();
     updateIncomeTotal();
     calculateBalance();
   }
+
+  const editContainer = incomeList.childNodes[index];
+  const deleteButton = editContainer.querySelector("button:last-child");
+  deleteButton.disabled = false;
+  updateIncomeList();
+}
+
+function cancelEditIncomeTransaction(index, originalName, originalAmount) {
+  incomeTransactions[index].name = originalName;
+  incomeTransactions[index].amount = originalAmount;
+  updateIncomeList();
 }
 
 function editExpenseTransaction(index) {
   const transaction = expenseTransactions[index];
-  const newName = prompt("Wprowadź nową nazwę:", transaction.name);
+  const originalName = transaction.name;
+  const originalAmount = transaction.amount;
+  const editContainer = document.createElement("div");
+  editContainer.innerHTML = `
+    <input id="editExpenseName" type="text" placeholder="Nowa nazwa" value="${originalName}">
+    <input id="editExpenseAmount" type="number" step="0.01" min="0.01" placeholder="Nowa kwota" value="${originalAmount}">
+    <button onclick="confirmEditExpenseTransaction(${index})">Zatwierdź</button>
+    <button onclick="cancelEditExpenseTransaction(${index}, '${originalName}', ${originalAmount})">Anuluj</button>
+  `;
+
+  expenseList.replaceChild(editContainer, expenseList.childNodes[index]);
+
+  const deleteButton = editContainer.querySelector("button:last-child");
+  deleteButton.disabled = false;
+}
+
+function confirmEditExpenseTransaction(index) {
+  const newName = document.getElementById("editExpenseName").value;
   const newAmount = parseFloat(
-    prompt("Wprowadź nową kwotę (PLN):", transaction.amount)
+    document.getElementById("editExpenseAmount").value
   );
 
   if (newName && !isNaN(newAmount)) {
-    transaction.name = newName;
-    transaction.amount = newAmount;
+    expenseTransactions[index].name = newName;
+    expenseTransactions[index].amount = newAmount;
     updateExpenseList();
     updateExpenseTotal();
     calculateBalance();
   }
+
+  const editContainer = expenseList.childNodes[index];
+  const deleteButton = editContainer.querySelector("button:last-child");
+  deleteButton.disabled = true;
+  updateExpenseList();
+}
+
+function cancelEditExpenseTransaction(index, originalName, originalAmount) {
+  expenseTransactions[index].name = originalName;
+  expenseTransactions[index].amount = originalAmount;
+  updateExpenseList();
 }
 
 function deleteIncomeTransaction(index) {
