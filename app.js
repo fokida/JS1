@@ -81,12 +81,21 @@ function confirmEditIncomeTransaction(index) {
     document.getElementById("editIncomeAmount").value
   );
 
-  if (newName && !isNaN(newAmount)) {
+  const errorContainer = document.getElementById("editIncomeError");
+
+  if (newName && !isNaN(newAmount) && newAmount >= 0.01) {
     incomeTransactions[index].name = newName;
     incomeTransactions[index].amount = newAmount;
     updateIncomeList();
     updateIncomeTotal();
     calculateBalance();
+    errorContainer.textContent = "";
+  } else {
+    errorContainer.textContent = "Kwota musi być większa lub równa 0.01 PLN";
+  }
+
+  if (newAmount <= 0.01) {
+    return;
   }
 
   const editContainer = incomeList.childNodes[index];
@@ -125,12 +134,21 @@ function confirmEditExpenseTransaction(index) {
     document.getElementById("editExpenseAmount").value
   );
 
-  if (newName && !isNaN(newAmount)) {
+  const errorContainer = document.getElementById("editExpenseError");
+
+  if (newName && !isNaN(newAmount) && newAmount >= 0.01) {
     expenseTransactions[index].name = newName;
     expenseTransactions[index].amount = newAmount;
     updateExpenseList();
     updateExpenseTotal();
     calculateBalance();
+    errorContainer.textContent = "";
+  } else {
+    errorContainer.textContent = "Kwota musi być większa lub równa 0.01 PLN";
+  }
+
+  if (newAmount <= 0.01) {
+    return;
   }
 
   const editContainer = expenseList.childNodes[index];
